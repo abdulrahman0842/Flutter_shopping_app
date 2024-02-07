@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:flutter_application_1/pages/mydrawer.dart';
 import 'package:flutter_application_1/models/catalog.dart';
+import 'package:flutter_application_1/pages/item_detail_page.dart';
 import 'package:flutter_application_1/widgets/item_widget.dart';
+import 'package:flutter_application_1/widgets/themes.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFECE6DF),
+      backgroundColor: MyTheme.lightBrown,
       body: SafeArea(
           child: Container(
         padding: Vx.m20,
@@ -44,9 +46,7 @@ class _HomePageState extends State<HomePage> {
             if (CatalogModel.items.isNotEmpty)
               CatalogList().expand()
             else
-              const Center(
-                child: CircularProgressIndicator(),
-              )
+              const CircularProgressIndicator().centered().expand()
           ],
         ),
       )),
@@ -75,7 +75,15 @@ class CatalogList extends StatelessWidget {
       itemCount: CatalogModel.items.length,
       itemBuilder: (context, index) {
         final catalog = CatalogModel.items[index];
-        return CatalogItem(catalog: catalog);
+        return InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ItemDetails(catalog: catalog),
+                  ));
+            },
+            child: CatalogItem(catalog: catalog));
       },
     );
   }
@@ -90,7 +98,9 @@ class CatalogItem extends StatelessWidget {
     return VxBox(
         child: Row(
       children: [
-        CatalogImage(image: catalog.image),
+        Hero(
+            tag: Key(catalog.id.toString()),
+            child: CatalogImage(image: catalog.image)),
         Expanded(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,18 +108,25 @@ class CatalogItem extends StatelessWidget {
           children: [
             catalog.name.text.lg.bold.make(),
             catalog.desc.text.textStyle(context.captionStyle).make(),
+            10.heightBox,
             ButtonBar(
               alignment: MainAxisAlignment.spaceBetween,
-              buttonPadding: Vx.mOnly(right: 10),
+              buttonPadding: EdgeInsets.zero,
               children: [
                 "\$${catalog.price}".text.bold.xl.make(),
-                ElevatedButton(onPressed: () {}, child: "Buy".text.make())
+                ElevatedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(MyTheme.darkBluish),
+                        shape: MaterialStateProperty.all(StadiumBorder())),
+                    child: "Buy".text.color(Colors.white).make())
               ],
-            )
+            ).pOnly(right: 8)
           ],
         ))
       ],
-    )).white.rounded.square(100).make().py16().h32(context);
+    )).white.rounded.square(150).make().py16().h24(context);
   }
 }
 
@@ -119,7 +136,14 @@ class CatalogImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(image).box.p16.make().w40(context);
+    return Image.network(image)
+        .box
+        .rounded
+        .color(MyTheme.lightBrown)
+        .p8
+        .make()
+        .p16()
+        .w40(context);
   }
 }
         // appBar: AppBar(
