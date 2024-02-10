@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:flutter_application_1/pages/mydrawer.dart';
+import 'package:flutter_application_1/pages/cart_page.dart';
+import 'package:flutter_application_1/pages/home_pages/catalog_head.dart';
+import 'package:flutter_application_1/pages/home_pages/catalog_list.dart';
 import 'package:flutter_application_1/models/catalog.dart';
-import 'package:flutter_application_1/pages/item_detail_page.dart';
 import 'package:flutter_application_1/widgets/themes.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -35,6 +37,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyTheme.lightBrown,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CartPage(),
+              ));
+        },
+        splashColor: Colors.white12,
+        backgroundColor: MyTheme.darkBluish,
+        child: const Icon(
+          CupertinoIcons.cart,
+          color: Colors.white,
+        ),
+      ),
       body: SafeArea(
           child: Container(
         padding: Vx.m20,
@@ -50,99 +67,6 @@ class _HomePageState extends State<HomePage> {
         ),
       )),
     );
-  }
-}
-
-class CatalogHead extends StatelessWidget {
-  const CatalogHead({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      "Shopping App".text.xl4.bold.make(),
-      "Trending Products".text.xl2.make()
-    ]);
-  }
-}
-
-class CatalogList extends StatelessWidget {
-  const CatalogList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: CatalogModel.items.length,
-      itemBuilder: (context, index) {
-        final catalog = CatalogModel.items[index];
-        return InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ItemDetails(catalog: catalog),
-                  ));
-            },
-            child: CatalogItem(catalog: catalog));
-      },
-    );
-  }
-}
-
-class CatalogItem extends StatelessWidget {
-  final Item catalog;
-  const CatalogItem({super.key, required this.catalog});
-
-  @override
-  Widget build(BuildContext context) {
-    return VxBox(
-        child: Row(
-      children: [
-        Hero(
-            tag: Key(catalog.id.toString()),
-            child: CatalogImage(image: catalog.image)),
-        Expanded(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            catalog.name.text.lg.bold.make(),
-            catalog.desc.text.textStyle(context.captionStyle).make(),
-            10.heightBox,
-            ButtonBar(
-              alignment: MainAxisAlignment.spaceBetween,
-              buttonPadding: EdgeInsets.zero,
-              children: [
-                "\$${catalog.price}".text.bold.xl.make(),
-                ElevatedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(MyTheme.darkBluish),
-                        shape: MaterialStateProperty.all(StadiumBorder())),
-                    child: "Buy".text.color(Colors.white).make())
-              ],
-            ).pOnly(right: 8)
-          ],
-        ))
-      ],
-    )).white.rounded.square(150).make().py16().h24(context);
-  }
-}
-
-class CatalogImage extends StatelessWidget {
-  final String image;
-  const CatalogImage({super.key, required this.image});
-
-  @override
-  Widget build(BuildContext context) {
-    return Image.network(image)
-        .box
-        .rounded
-        .color(MyTheme.lightBrown)
-        .p8
-        .make()
-        .p16()
-        .w40(context);
   }
 }
         // appBar: AppBar(

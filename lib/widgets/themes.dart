@@ -6,9 +6,8 @@ class MyTheme {
       fontFamily: GoogleFonts.poppins().fontFamily,
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal.shade200),
       useMaterial3: true,
-      
       appBarTheme: const AppBarTheme(
-          iconTheme: IconThemeData(color: Colors.white),
+          // iconTheme: IconThemeData(color: Colors.white),
           titleTextStyle: TextStyle(
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
           centerTitle: true));
