@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/catalog.dart';
-import 'package:flutter_application_1/widgets/themes.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ItemDetails extends StatelessWidget {
@@ -11,14 +10,14 @@ class ItemDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyTheme.lightBrown,
+      backgroundColor: context.canvasColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       bottomNavigationBar: Container(
         // height: 90,
-        color: Colors.white,
+        color: context.cardColor,
         child: ButtonBar(
           alignment: MainAxisAlignment.spaceBetween,
           buttonPadding: EdgeInsets.zero,
@@ -27,8 +26,6 @@ class ItemDetails extends StatelessWidget {
             ElevatedButton(
                     onPressed: () {},
                     style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(MyTheme.darkBluish),
                         shape: MaterialStateProperty.all(StadiumBorder())),
                     child: "Add to Cart".text.color(Colors.white).make())
                 .wh(140, 50)
@@ -49,7 +46,7 @@ class ItemDetails extends StatelessWidget {
                   arcType: VxArcType.convey,
                   child: Container(
                     width: context.screenWidth,
-                    color: Colors.white,
+                    color: context.cardColor,
                     child: Column(children: [
                       catalog.name.text.xl4.bold.make(),
                       catalog.desc.text

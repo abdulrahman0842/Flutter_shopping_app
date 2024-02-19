@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/home_page.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => const HomePage(),
           ));
       email.clear();
       password.clear();
@@ -27,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.canvasColor,
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -36,16 +38,25 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.only(top: 25),
                 child: Image.asset('assets/images/welcome.png'),
               ),
-              const Text(
-                textAlign: TextAlign.center,
-                'Login Here...',
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black54),
-              ),
+              "Login Here..."
+                  .text
+                  .align(TextAlign.center)
+                  .color(context.primaryColor)
+                  .xl2
+                  .bold
+                  .make()
+                  .py24()
+              // Text(
+              //   textAlign: TextAlign.center,
+              //   'Login Here...',
+              //   style: TextStyle(
+              //       fontSize: 25,
+              //       fontWeight: FontWeight.w600,
+              //       color: Colors.black54),
+              // ),
+              ,
               const SizedBox(
-                height: 30,
+                height: 25,
               ),
               Padding(
                 padding:
@@ -61,16 +72,16 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       controller: email,
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          fillColor: Colors.teal.shade50,
-                          filled: true,
-                          prefixIcon: Icon(
-                            Icons.mail_outlined,
-                            color: Colors.teal.shade900,
-                          ),
-                          labelText: 'Email',
-                          hintText: 'Enter Email'),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        fillColor: Theme.of(context).cardColor,
+                        filled: true,
+                        prefixIcon: const Icon(
+                          Icons.mail_outlined,
+                        ),
+                        labelText: 'Email',
+                        hintText: 'Enter Email',
+                      ),
                     ),
                     const SizedBox(
                       height: 12,
@@ -79,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Password Cannot be Empty';
-                        } else if (value.length < 8) {
+                        } else if (value.length < 5) {
                           return 'Password Length Must be minimum 8';
                         }
                         return null;
@@ -88,11 +99,10 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
-                        fillColor: Colors.teal.shade50,
+                        fillColor: Theme.of(context).cardColor,
                         filled: true,
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.vpn_key,
-                          color: Colors.teal.shade900,
                         ),
                         labelText: 'Password',
                         hintText: 'Enter Password',
@@ -102,26 +112,31 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    InkWell(
-                      onTap: () {
-                        moveToHome(context);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.teal.shade600,
-                            borderRadius: BorderRadius.circular(10)),
-                        alignment: Alignment.center,
-                        height: 40,
-                        width: 100,
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    )
+                    ElevatedButton(
+                        onPressed: () {
+                          moveToHome(context);
+                        },
+                        child: "Login".text.xl.color(Colors.white).make())
+                    // InkWell(
+                    //   onTap: () {
+                    //     moveToHome(context);
+                    //   },
+                    //   child: Container(
+                    //     decoration: BoxDecoration(
+                    //         color: Colors.teal.shade600,
+                    //         borderRadius: BorderRadius.circular(10)),
+                    //     alignment: Alignment.center,
+                    //     height: 40,
+                    //     width: 100,
+                    //     child: const Text(
+                    //       'Login',
+                    //       style: TextStyle(
+                    //           color: Colors.white,
+                    //           fontSize: 15,
+                    //           fontWeight: FontWeight.w600),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               )
